@@ -1,0 +1,10 @@
+<mat-form-field>
+    <mat-label>Feed Selection</mat-label>
+    <div (select)="createForm(selectedFeed.value)">
+        <mat-select [formControl]="selectedFeed" >
+            <mat-option value="rss">RSS</mat-option>
+            <mat-option value="reddit">REDDIT</mat-option>
+          </mat-select>
+    </div>
+  </mat-form-field>
+ 
