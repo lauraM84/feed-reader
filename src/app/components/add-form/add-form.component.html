@@ -1,10 +1,60 @@
-<mat-form-field>
-    <mat-label>Feed Selection</mat-label>
-    <div (select)="createForm(selectedFeed.value)">
-        <mat-select [formControl]="selectedFeed" >
-            <mat-option value="rss">RSS</mat-option>
-            <mat-option value="reddit">REDDIT</mat-option>
-          </mat-select>
+<mat-form-field (click)="clear()">
+  <mat-label>Feed Selection</mat-label>
+  <mat-select class="pippo" [formControl]="selectedFeed" (selectionChange)="handleSelection($event.value)">
+    <mat-option class="pippo" value="rss">RSS</mat-option>
+    <mat-option class="pippo" value="reddit">REDDIT</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<form [formGroup]="superForm" (ngSubmit)="submitForm()">
+  <div class="form-container">
+    <div class="column1" formArrayName="rssForm">
+      @for (feed of rssForm.controls; let i = $index; track $index) {
+      <div class="form-group" [formGroupName]="i">
+        <mat-form-field>
+          <mat-label for="journalName">Journal Name</mat-label>
+          <input matInput id="journalName" formControlName="journalName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="journalUrl">Journal Rss (url)</mat-label>
+          <input matInput id="journalUrl" formControlName="journalUrl">
+        </mat-form-field>
+
+        <div class="button-container">
+          <button type="button" mat-fab aria-label="icon button with a delete icon" (click)="removeFieldRss(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+      </div>
+      }
     </div>
-  </mat-form-field>
- 
+
+    <div class="column1" formArrayName="redditForm">
+      @for (feed of redditForm.controls; let i = $index; track $index) {
+      <div class="form-group" [formGroupName]="i">
+        <mat-form-field>
+          <mat-label for="subRedditName">Sub-Reddit Name</mat-label>
+          <input matInput id="subRedditName" formControlName="subRedditName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label or="subRedditUrl">Sub-Reddit Url</mat-label>
+          <input matInput id="subRedditUrl" formControlName="subRedditUrl">
+        </mat-form-field>
+
+        <div class="button-container">
+          <button type="button" mat-fab aria-label="icon button with a delete icon" (click)="removeFieldReddit(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+      </div>
+      }
+    </div>
+  </div>
+  <div class="button-container">
+    <button type="submit" mat-fab aria-label="icon button with a delete icon">
+      <mat-icon>done_all</mat-icon>
+    </button>
+  </div>
+</form>

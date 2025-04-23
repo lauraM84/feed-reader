@@ -1,42 +1,94 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { Component, inject } from '@angular/core';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-import { from } from 'rxjs';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { RssService } from '../../services/rss.service';
+import { Rss } from '../../models/rss';
 
 @Component({
   selector: 'app-add-form',
-  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule],
   templateUrl: './add-form.component.html',
   styleUrl: './add-form.component.scss'
 })
 export class AddFormComponent {
 
-selectedFeed = new FormControl("");
-superform = new FormArray([]);
+  service = inject(RssService);
+  selectedFeed = new FormControl("");
 
-  // submitForm() {
-  //   console.log(this.superForm)
-  //   if (this.superForm.valid) {
-  //     console.log(this.superForm.value);
-  //   } else {
-  //     for (const key in this.superForm.controls) {
-  //       if (Object.prototype.hasOwnProperty.call(this.superForm.controls, key)) {
-  //         const element = this.superForm.get(key);
-  //         console.log(key, element?.errors)
-  //       }
-  //     }
-  //   }
-  // };
+  superForm = new FormGroup({
+    rssForm: new FormArray([]),
+    redditForm: new FormArray([]),
+  })
 
-  createForm(arg: string|null) {
-    if (arg === "REDDIT") {
-      console.log("Reddittiamo");
-    } else if(arg === "RSS"){
-      console.log("rss");
-    } else {
-      console.log("stocazzo");
+  get rssForm() {
+    return this.superForm.get('rssForm') as FormArray;
+  }
+
+  get redditForm() {
+    return this.superForm.get('redditForm') as FormArray;
+  }
+
+  handleSelection(value: string | null) {
+    console.log('Selected value:', value);
+    if (this.selectedFeed) {
+      if (value === 'reddit') {
+        console.log('Display Reddit-specific form');
+        const reddit = new FormGroup({
+          subRedditName: new FormControl(""),
+          subRedditUrl: new FormControl(""),
+        })
+
+        this.redditForm.push(reddit);
+
+      } else if (value === 'rss') {
+        console.log('Display RSS-specific form');
+        const rss = new FormGroup({
+          journalName: new FormControl(""),
+          journalUrl: new FormControl(""),
+        })
+
+        this.rssForm.push(rss);
+
+      } else {
+        console.log('No valid selection');
+      }
     }
-    }
+  }
+
+  clear() {
+    this.selectedFeed.setValue("")
+  }
+
+  removeFieldRss(index: number) {
+    this.rssForm.removeAt(index);
+  }
+
+  removeFieldReddit(index: number) {
+    this.redditForm.removeAt(index);
+  }
+
+  submitForm() {
+
+    const rawValue = this.superForm.getRawValue();
+
+    this.service.rssFeed.set(rawValue.rssForm)
+    console.log(this.service.rssFeed())
+
+    this.service.redditFeed.set(rawValue.redditForm)
+    console.log(this.service.redditFeed())
+  }
 }

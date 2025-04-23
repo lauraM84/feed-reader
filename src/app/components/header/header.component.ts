@@ -13,10 +13,10 @@ import { AddFormComponent } from "../add-form/add-form.component";
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  isDialogOpen = false;
 
   openDialogue() {
-    const dialog = document.getElementById("add-feed") as HTMLDialogElement;
-    dialog.showModal();
+    this.isDialogOpen = !this.isDialogOpen;
   }
 
 }
