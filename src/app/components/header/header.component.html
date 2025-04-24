@@ -13,5 +13,5 @@
 </mat-toolbar>
 
 <div class="pippissimo" id="add-feed" *ngIf="isDialogOpen">
-    <app-add-form></app-add-form>
+    <app-add-form (dialogSubmit)="openDialogue()"></app-add-form>
 </div>

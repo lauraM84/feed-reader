@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,9 +24,11 @@ import { Rss } from '../../models/rss';
   templateUrl: './add-form.component.html',
   styleUrl: './add-form.component.scss'
 })
+
 export class AddFormComponent {
 
   service = inject(RssService);
+  dialogSubmit = output();
   selectedFeed = new FormControl("");
 
   superForm = new FormGroup({
@@ -43,10 +45,8 @@ export class AddFormComponent {
   }
 
   handleSelection(value: string | null) {
-    console.log('Selected value:', value);
     if (this.selectedFeed) {
       if (value === 'reddit') {
-        console.log('Display Reddit-specific form');
         const reddit = new FormGroup({
           subRedditName: new FormControl(""),
           subRedditUrl: new FormControl(""),
@@ -55,7 +55,6 @@ export class AddFormComponent {
         this.redditForm.push(reddit);
 
       } else if (value === 'rss') {
-        console.log('Display RSS-specific form');
         const rss = new FormGroup({
           journalName: new FormControl(""),
           journalUrl: new FormControl(""),
@@ -85,10 +84,12 @@ export class AddFormComponent {
 
     const rawValue = this.superForm.getRawValue();
 
-    this.service.rssFeed.set(rawValue.rssForm)
-    console.log(this.service.rssFeed())
+    this.service.rssFeed.update((old) => old.concat(rawValue.rssForm));
 
-    this.service.redditFeed.set(rawValue.redditForm)
-    console.log(this.service.redditFeed())
+    this.service.redditFeed.update((old) => old.concat(rawValue.redditForm));
+
+    this.service.getData();
+
+    this.dialogSubmit.emit();
   }
 }
