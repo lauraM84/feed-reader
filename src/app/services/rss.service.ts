@@ -66,8 +66,8 @@ export class RssService {
 
   async getData() {
 
-    const rssDataArray = await this.getRssFeed() as any;
-    const redditDataArray = await this.getRedditFeed() as any;
+    const rssDataArray = await this.getRssFeed();
+    const redditDataArray = await this.getRedditFeed();
     // console.log("rss Array", rssDataArray);
     // console.log("reddit Array", redditDataArray);
 
@@ -80,7 +80,7 @@ export class RssService {
   }
 
   async getRssFeed(){
-    const rssDataArray = []
+    const rssDataArray: Article[] = [];
 
     for (const rss of this.rssFeed()) {
       const data = await fetch(rss.journalUrl).then(res => res.text()).then(xmlText => {
@@ -88,7 +88,7 @@ export class RssService {
         return xmlData;
       })
       console.log(data);
-      const articleRss = data.rss.channel.item.flat().map((rss:any) => {
+      const articleRss: Article[] = data.rss.channel.item.flat().map((rss:any) => {
         const date = new Date(rss.pubDate).getTime();
         const rssObj:Article = {
           title: rss.title,
