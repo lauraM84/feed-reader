@@ -1,17 +1,15 @@
 <mat-toolbar>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <button (click)="emitSidenavClick()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>My App</span>
+    <span>Glint</span>
+    <div class="logo-container"><img class="logo" src="/logo.jpeg" alt="Glint Logo"></div>
     <span class="example-spacer"></span>
     <button (click)="openDialogue()" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>+</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
+        <mat-icon>add</mat-icon>
     </button>
 </mat-toolbar>
 
-<div class="pippissimo" id="add-feed" *ngIf="isDialogOpen">
-    <app-add-form (dialogSubmit)="openDialogue()"></app-add-form>
+<div class="form-container" id="add-feed" *ngIf="isDialogOpen">
+    <app-add-form class="form" (dialogSubmit)="openDialogue()"></app-add-form>
 </div>

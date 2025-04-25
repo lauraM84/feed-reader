@@ -1,0 +1,17 @@
+.container {
+    width: 100%;
+    height: calc(100vh - 64px);
+  }
+  
+  .sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(49, 56, 55);
+  }
+  
+  .sidenav {
+    padding: 20px;
+    background-color: #0f1415;
+  }

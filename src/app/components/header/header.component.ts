@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,10 +13,16 @@ import { AddFormComponent } from "../add-form/add-form.component";
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  
   isDialogOpen = false;
+  sidenavBtnClicked = output()
 
   openDialogue() {
     this.isDialogOpen = !this.isDialogOpen;
+  }
+
+  emitSidenavClick() {
+    this.sidenavBtnClicked.emit()
   }
 
 }

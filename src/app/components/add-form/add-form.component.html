@@ -1,10 +1,12 @@
-<mat-form-field (click)="clear()">
+<div class="container">
+<mat-form-field  (click)="clear()">
   <mat-label>Feed Selection</mat-label>
-  <mat-select class="pippo" [formControl]="selectedFeed" (selectionChange)="handleSelection($event.value)">
-    <mat-option class="pippo" value="rss">RSS</mat-option>
-    <mat-option class="pippo" value="reddit">REDDIT</mat-option>
+  <mat-select class="field" [formControl]="selectedFeed" (selectionChange)="handleSelection($event.value)">
+    <mat-option class="field" value="rss">RSS</mat-option>
+    <mat-option class="field" value="reddit">REDDIT</mat-option>
   </mat-select>
 </mat-form-field>
+</div>
 
 <form [formGroup]="superForm" (ngSubmit)="submitForm()">
   <div class="form-container">
@@ -53,7 +55,7 @@
     </div>
   </div>
   <div class="button-container">
-    <button type="submit" mat-fab aria-label="icon button with a delete icon">
+    <button type="submit" mat-fab aria-label="icon button with a confirm icon">
       <mat-icon>done_all</mat-icon>
     </button>
   </div>

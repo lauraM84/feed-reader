@@ -1,1 +1,12 @@
-<p>home works!</p>
+<mat-drawer-container class="container" autosize>
+    <mat-drawer [opened]="isSidebarOpen()" #drawer class="sidenav" mode="push" position="start">
+      
+        <app-drower-card></app-drower-card>
+  
+    </mat-drawer>
+  
+    <div class="sidenav-content">
+      <app-card></app-card>
+    </div>
+  
+  </mat-drawer-container>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrowerComponent } from './drower.component';
+import { DrowerCardComponent } from './drower-card.component';
 
-describe('DrowerComponent', () => {
-  let component: DrowerComponent;
-  let fixture: ComponentFixture<DrowerComponent>;
+describe('DrowerCardComponent', () => {
+  let component: DrowerCardComponent;
+  let fixture: ComponentFixture<DrowerCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrowerComponent]
+      imports: [DrowerCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DrowerComponent);
+    fixture = TestBed.createComponent(DrowerCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

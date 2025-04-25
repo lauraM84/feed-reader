@@ -1,11 +1,22 @@
-.pippo{
+.field{
     z-index: 1;
     position: relative;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
 .button-container{
     width: auto;
     display: inline;
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
 .form-container{
