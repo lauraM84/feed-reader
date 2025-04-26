@@ -76,7 +76,7 @@ export class RssService {
 
     console.log(this.joinedArray());
 
-    return this.orderArrayByDate();
+    return this.orderArrayByDate(this.joinedArray());
 
   }
 
@@ -130,8 +130,8 @@ export class RssService {
     return redditDataArray;
   }
 
-  orderArrayByDate() {
-    const sortedData = this.joinedArray().sort((a, b) => b.creationDate - a.creationDate);
+  orderArrayByDate(data:Article[]) {
+    const sortedData = data.sort((a, b) => b.creationDate - a.creationDate);
     return sortedData;
   }
 }

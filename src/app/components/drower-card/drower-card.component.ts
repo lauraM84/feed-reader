@@ -26,5 +26,9 @@ export class DrowerCardComponent {
   filterRedd(redd: feed) {
     redd.isHidden = !redd.isHidden;
     this.changeVisibility.emit(redd);
-    }
+  }
+
+  showPreferred() {
+    throw new Error('Method not implemented.');
+  }
 }

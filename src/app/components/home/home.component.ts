@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { RssService } from '../../services/rss.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,16 +20,32 @@ export class HomeComponent {
   isSidebarOpen = input(false);
   displayArray = signal<Article[]>([]); //l'array in cui mettere i dati dal service per poter creare le card
 
+  constructor() {
+    // Initialize the displayArray with data from the service
+    this.initializeDisplayArray();
+
+    // Use effect to react to changes in the service's joinedArray or other signals
+    effect(() => {
+      console.log('Display array updated:', this.displayArray());
+    });
+  }
+
+  async initializeDisplayArray() {
+    const newArray = await this.showArray();
+    this.displayArray.set(newArray);
+  }
+
+  async showArray() {
+    const newArray = await this.service.getData();
+    return newArray;
+  }
+
   filterCards(feed: feed) {
-    console.log(feed);
-    console.log(this.displayArray());
     if (this.displayArray().some(article => article.baseUrl === feed.url)) {
       this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
-      console.log(this.displayArray());
     } else {
       const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
-      this.displayArray.update(oldArray => oldArray.concat(arrayToAdd));
-      console.log(this.displayArray());
+      this.displayArray.update(oldArray => this.service.orderArrayByDate(oldArray.concat(arrayToAdd)));
     }
   }
 }

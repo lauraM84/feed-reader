@@ -1,21 +1,30 @@
-<h3>Newspaper</h3>
-<div *ngFor="let rss of service.rssFeed()">
-    <mat-card appearance="outlined">
-        <mat-card-content class="feed">
-            <span>{{rss.name}}</span>
-            <mat-icon *ngIf="!rss.isHidden" (click)="filterRss(rss)">visibility</mat-icon>
-            <mat-icon *ngIf="rss.isHidden" (click)="filterRss(rss)">visibility_off</mat-icon>
-        </mat-card-content>
-    </mat-card>
-</div>
 
-<h3>Reddit</h3>
-<div *ngFor="let subReddit of service.redditFeed()">
-    <mat-card appearance="outlined">
-        <mat-card-content class="feed">
-            <span>{{subReddit.name}}</span>
-            <mat-icon *ngIf="!subReddit.isHidden" (click)="filterRedd(subReddit)">visibility</mat-icon>
-            <mat-icon *ngIf="subReddit.isHidden" (click)="filterRedd(subReddit)">visibility_off</mat-icon>
-        </mat-card-content>
-    </mat-card>
+<div>
+    <h3>Newspaper</h3>
+    <div *ngFor="let rss of service.rssFeed()">
+        <mat-card appearance="outlined">
+            <mat-card-content class="feed">
+                <span>{{rss.name}}</span>
+                <mat-icon *ngIf="!rss.isHidden" (click)="filterRss(rss)">visibility</mat-icon>
+                <mat-icon *ngIf="rss.isHidden" (click)="filterRss(rss)">visibility_off</mat-icon>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <h3>Reddit</h3>
+    <div *ngFor="let subReddit of service.redditFeed()">
+        <mat-card appearance="outlined">
+            <mat-card-content class="feed">
+                <span>{{subReddit.name}}</span>
+                <mat-icon *ngIf="!subReddit.isHidden" (click)="filterRedd(subReddit)">visibility</mat-icon>
+                <mat-icon *ngIf="subReddit.isHidden" (click)="filterRedd(subReddit)">visibility_off</mat-icon>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <button (click)="showPreferred()" mat-icon-button class="btn" aria-label="Icon-button with favorite icon">
+        <mat-icon class="icon">favorite</mat-icon>
+        <span>Show Favourites</span>
+    </button>
+    
 </div>
