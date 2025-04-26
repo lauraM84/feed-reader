@@ -10,6 +10,7 @@ export class RssService {
 
   rssFeed = signal<feed[]>([]);
   redditFeed = signal<feed[]>([]);
+  joinedArray = signal<Article[]>([]);
 
   constructor() {
 
@@ -70,11 +71,11 @@ export class RssService {
     console.log("rss Array", rssDataArray);
     console.log("reddit Array", redditDataArray);
 
-    const joinedArray = [...rssDataArray, ...redditDataArray];
+    this.joinedArray.set([...rssDataArray, ...redditDataArray]);
 
-    console.log(joinedArray);
+    console.log(this.joinedArray());
 
-    return this.orderArrayByDate(joinedArray)
+    return this.orderArrayByDate();
 
   }
 
@@ -125,8 +126,8 @@ export class RssService {
     return redditDataArray;
   }
 
-  orderArrayByDate(data: Article[]) {
-    const sortedData = data.sort((a,b) => b.creationDate - a.creationDate);
+  orderArrayByDate() {
+    const sortedData = this.joinedArray().sort((a,b) => b.creationDate - a.creationDate);
     return sortedData;
   }
 }

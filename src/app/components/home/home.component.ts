@@ -22,8 +22,11 @@ export class HomeComponent {
 
   filterCards(feed:feed){
       console.log(feed);
-      this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
-      //devo ancora fare l'if per aggiungerli in caso non ci siano, devo fare un findAll sul joinedArray del service
-      //mettere tutti i risultati in un array, e fare un update del displayArray concatenandoci il nuovo array
+      if(this.displayArray().some(article => article.baseUrl === feed.url)){
+        this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
+      } else {
+        const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
+        this.displayArray.update(oldArray => oldArray.concat(arrayToAdd))
+      }
   }
 }
