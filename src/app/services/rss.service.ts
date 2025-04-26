@@ -2,6 +2,7 @@ import { effect, Injectable, signal } from '@angular/core';
 import { parseStringPromise } from 'xml2js'
 import { Article } from '../models/article';
 import { feed } from '../models/feed';
+import { decode } from 'he';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,14 @@ export class RssService {
     this.storageAlignment()
 
     effect(() => {
-     this.saveRssFeed()
-     this.saveRedditFeed()
+      this.saveRssFeed()
+      this.saveRedditFeed()
     })
 
     this.getData()
   }
 
-  storageAlignment(){
+  storageAlignment() {
     const rssFeedString = localStorage.getItem("rssFeed");
     if (rssFeedString) {
       this.rssFeed.set(JSON.parse(rssFeedString));
@@ -42,7 +43,7 @@ export class RssService {
 
       localStorage.removeItem("rssFeed")
       localStorage.setItem("rssFeed", JSON.stringify(this.rssFeed()));
-      
+
     } else {
 
       localStorage.setItem("rssFeed", JSON.stringify(this.rssFeed()));
@@ -50,13 +51,13 @@ export class RssService {
     }
   }
 
-  saveRedditFeed(){
+  saveRedditFeed() {
     const redditFeedString = localStorage.getItem("redditFeed");
     if (redditFeedString) {
 
       localStorage.removeItem("redditFeed")
       localStorage.setItem("redditFeed", JSON.stringify(this.redditFeed()));
-      
+
     } else {
 
       localStorage.setItem("redditFeed", JSON.stringify(this.redditFeed()));
@@ -79,19 +80,20 @@ export class RssService {
 
   }
 
-  async getRssFeed(){
+  async getRssFeed() {
     const rssDataArray: Article[] = [];
 
     for (const rssArticle of this.rssFeed()) {
       const data = await fetch(rssArticle.url).then(res => res.text()).then(xmlText => {
-        const xmlData = parseStringPromise(xmlText, {explicitArray:false});
+        const xmlData = parseStringPromise(xmlText, { explicitArray: false });
         return xmlData;
       })
-      const articleRss: Article[] = data.rss.channel.item.flat().map((rss:any) => {
+      const articleRss: Article[] = data.rss.channel.item.flat().map((rss: any) => {
         const date = new Date(rss.pubDate).getTime();
-        const rssObj:Article = {
+        const rssObj: Article = {
           title: rss.title,
-          desc: rss.description,
+          desc: decode(rss.description),// decode the description to handle HTML entities using he library
+          img: rss.enclosure?.$.url || rss.image?.url,
           creationDate: date,
           link: rss.link,
           category: data.rss.channel.title,
@@ -104,22 +106,24 @@ export class RssService {
     return rssDataArray;
   }
 
-  async getRedditFeed(){
+  async getRedditFeed() {
     const redditDataArray = []
     for (const reddit of this.redditFeed()) {
       const url = reddit.url.replace(/\/$/, "") + ".json";
       const data = await fetch(url).then(res => res.json());
       const fromAnyarrayToArticleArray = data.data.children;
-      const finaldata: Article[] = fromAnyarrayToArticleArray.map((post:any) =>{
-        const redditObj:Article = {
-                title: post.data.title,
-                desc: post.data.selftext,
-                creationDate: post.data.created,
-                link: post.data.url,
-                category: post.data.subreddit,
-                baseUrl: reddit.url,
-              }
-              return redditObj;
+      const finaldata: Article[] = fromAnyarrayToArticleArray.map((post: any) => {
+        console.log(post.data);
+        const redditObj: Article = {
+          title: post.data.title,
+          desc: post.data.selftext,
+          img: decode(post.data.prewiew?.images[0]?.source.url || post.data.thumbnail),
+          creationDate: post.data.created,
+          link: post.data.url,
+          category: post.data.subreddit,
+          baseUrl: reddit.url,
+        }
+        return redditObj;
       });
       redditDataArray.push(...finaldata);
     }
@@ -127,7 +131,7 @@ export class RssService {
   }
 
   orderArrayByDate() {
-    const sortedData = this.joinedArray().sort((a,b) => b.creationDate - a.creationDate);
+    const sortedData = this.joinedArray().sort((a, b) => b.creationDate - a.creationDate);
     return sortedData;
   }
 }

@@ -1,1 +1,13 @@
-<p>card works!</p>
+<mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{article.title}}</mat-card-title>
+        <mat-card-subtitle>{{article.category}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="{{article.img}}" alt="Photo of {{article.title}}">
+    <mat-card-content [innerHTML]="article.desc"></mat-card-content>
+    <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+    </mat-card-actions>
+</mat-card>
