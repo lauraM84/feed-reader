@@ -27,3 +27,4 @@ export class HomeComponent {
       //mettere tutti i risultati in un array, e fare un update del displayArray concatenandoci il nuovo array
   }
 }
+//boh
