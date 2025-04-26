@@ -92,7 +92,7 @@ export class RssService {
         const date = new Date(rss.pubDate).getTime();
         const rssObj: Article = {
           title: rss.title,
-          desc: decode(rss.description),// decode the description to handle HTML entities using he library
+          desc: decodeDescription(rss.description),
           img: rss.enclosure?.$.url || rss.image?.url,
           creationDate: date,
           link: rss.link,
@@ -106,6 +106,7 @@ export class RssService {
     return rssDataArray;
   }
 
+
   async getRedditFeed() {
     const redditDataArray = []
     for (const reddit of this.redditFeed()) {
@@ -113,11 +114,10 @@ export class RssService {
       const data = await fetch(url).then(res => res.json());
       const fromAnyarrayToArticleArray = data.data.children;
       const finaldata: Article[] = fromAnyarrayToArticleArray.map((post: any) => {
-        console.log(post.data);
         const redditObj: Article = {
           title: post.data.title,
-          desc: post.data.selftext,
-          img: decode(post.data.prewiew?.images[0]?.source.url || post.data.thumbnail),
+          desc: decodeDescription(post.data.selftext),
+          img: decode(post.data.preview?.images[0]?.source.url || post.data.thumbnail),
           creationDate: post.data.created,
           link: post.data.url,
           category: post.data.subreddit,
@@ -134,4 +134,13 @@ export class RssService {
     const sortedData = data.sort((a, b) => b.creationDate - a.creationDate);
     return sortedData;
   }
+}
+
+
+function decodeDescription(description: string): string {
+  return removeImageTags(decode(description));
+}
+
+function removeImageTags(html: string): string {
+  return html.replace(/<img[^>]*>/gi, '');
 }

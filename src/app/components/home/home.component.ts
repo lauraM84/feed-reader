@@ -20,16 +20,6 @@ export class HomeComponent {
   isSidebarOpen = input(false);
   displayArray = signal<Article[]>([]); //l'array in cui mettere i dati dal service per poter creare le card
 
-  constructor() {
-    // Initialize the displayArray with data from the service
-    this.initializeDisplayArray();
-
-    // Use effect to react to changes in the service's joinedArray or other signals
-    effect(() => {
-      console.log('Display array updated:', this.displayArray());
-    });
-  }
-
   async initializeDisplayArray() {
     const newArray = await this.showArray();
     this.displayArray.set(newArray);
@@ -47,5 +37,14 @@ export class HomeComponent {
       const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
       this.displayArray.update(oldArray => this.service.orderArrayByDate(oldArray.concat(arrayToAdd)));
     }
+  }
+
+  async ngOnInit() {
+    this.initializeDisplayArray();
+
+    // Use effect to react to changes in the service's joinedArray or other signals
+    effect(() => {
+      console.log('Display array updated:', this.displayArray());
+    });
   }
 }
