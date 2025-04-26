@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RssService } from '../../services/rss.service';
-import { feed } from '../../models/feed';
+import { RssService } from '../../../services/rss.service';
+import { feed } from '../../../models/feed';
 
 @Component({
   selector: 'app-drower-card',
@@ -29,6 +29,6 @@ export class DrowerCardComponent {
   }
 
   showPreferred() {
-    throw new Error('Method not implemented.');
+    
   }
 }

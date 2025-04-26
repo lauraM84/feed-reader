@@ -2,7 +2,7 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { RssService } from '../../services/rss.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
-import { DrowerCardComponent } from "../drower-card/drower-card.component";
+import { DrowerCardComponent } from "../card/drower-card/drower-card.component";
 import { Article } from '../../models/article';
 import { feed } from '../../models/feed';
 import { ListCardComponent } from '../list-card/list-card.component';
