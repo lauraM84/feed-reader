@@ -68,8 +68,8 @@ export class RssService {
 
     const rssDataArray = await this.getRssFeed();
     const redditDataArray = await this.getRedditFeed();
-    // console.log("rss Array", rssDataArray);
-    // console.log("reddit Array", redditDataArray);
+    console.log("rss Array", rssDataArray);
+    console.log("reddit Array", redditDataArray);
 
     const joinedArray = [...rssDataArray, ...redditDataArray];
 
@@ -82,12 +82,11 @@ export class RssService {
   async getRssFeed(){
     const rssDataArray: Article[] = [];
 
-    for (const rss of this.rssFeed()) {
-      const data = await fetch(rss.journalUrl).then(res => res.text()).then(xmlText => {
+    for (const rssArticle of this.rssFeed()) {
+      const data = await fetch(rssArticle.journalUrl).then(res => res.text()).then(xmlText => {
         const xmlData = parseStringPromise(xmlText, {explicitArray:false});
         return xmlData;
       })
-      console.log(data);
       const articleRss: Article[] = data.rss.channel.item.flat().map((rss:any) => {
         const date = new Date(rss.pubDate).getTime();
         const rssObj:Article = {
@@ -96,12 +95,12 @@ export class RssService {
           creationDate: date,
           link: rss.link,
           category: data.rss.channel.title,
+          baseUrl: rssArticle.journalUrl,
         };
         return rssObj;
       });
       rssDataArray.push(...articleRss);
     };
-    console.log(rssDataArray);
     return rssDataArray;
   }
 
@@ -110,18 +109,21 @@ export class RssService {
     for (const reddit of this.redditFeed()) {
       const url = reddit.subRedditUrl.replace(/\/$/, "") + ".json";
       const data = await fetch(url).then(res => res.json());
-      redditDataArray.push(data.data.children)
+      const fromAnyarrayToArticleArray = data.data.children
+      const finaldata = fromAnyarrayToArticleArray.map((post:any) =>{
+        const redditObj:Article = {
+                title: post.data.title,
+                desc: post.data.selftext,
+                creationDate: post.data.created,
+                link: post.data.url,
+                category: post.data.subreddit,
+                baseUrl: reddit.subRedditUrl,
+              }
+              return redditObj;
+      });
+      redditDataArray.push(finaldata);
     }
-    return redditDataArray.flat().map(({data:{title, selftext:desc, created: creationDate, url: link,subreddit: category}}) => {
-      const redditObj:Article = {
-        title,
-        desc,
-        creationDate,
-        link,
-        category,
-      }
-      return redditObj;
-    });
+    return redditDataArray.flat();
   }
 
   orderArrayByDate(data: Article[]) {

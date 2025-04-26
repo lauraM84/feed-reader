@@ -5,4 +5,5 @@ export interface Article {
     creationDate: number,
     link: string,
     category: string,
+    baseUrl: string,
 }
