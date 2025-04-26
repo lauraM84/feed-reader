@@ -22,11 +22,14 @@ export class HomeComponent {
 
   filterCards(feed:feed){
       console.log(feed);
+      console.log(this.displayArray());
       if(this.displayArray().some(article => article.baseUrl === feed.url)){
         this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
+        console.log(this.displayArray());
       } else {
         const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
-        this.displayArray.update(oldArray => oldArray.concat(arrayToAdd))
+        this.displayArray.update(oldArray => oldArray.concat(arrayToAdd));
+        console.log(this.displayArray());
       }
   }
 }
