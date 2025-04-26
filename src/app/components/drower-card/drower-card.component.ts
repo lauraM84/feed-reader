@@ -29,6 +29,6 @@ export class DrowerCardComponent {
   }
 
   showPreferred() {
-    throw new Error('Method not implemented.');
+    
   }
 }
