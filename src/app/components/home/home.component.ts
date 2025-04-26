@@ -18,11 +18,12 @@ export class HomeComponent {
   service = inject(RssService);
   showFiller = false;
   isSidebarOpen = input(false);
-  displayArray = signal<Article[]>([]);
+  displayArray = signal<Article[]>([]); //l'array in cui mettere i dati dal service per poter creare le card
 
   filterCards(feed:feed){
       console.log(feed);
       this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
-    
+      //devo ancora fare l'if per aggiungerli in caso non ci siano, devo fare un findAll sul joinedArray del service
+      //mettere tutti i risultati in un array, e fare un update del displayArray concatenandoci il nuovo array
   }
 }
