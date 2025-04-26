@@ -3,8 +3,25 @@
     justify-content: space-between;
 }
 
+.container{
+    width: 90%;
+    max-height: 40%;
+    overflow-y: scroll;
+}
+
 .btn{
-    border: none;
-    background-color: hsl(190, 17%, 7%);
-    color: #cce4e6;
+    box-sizing: border-box;
+}
+
+.icon{
+    position: relative;
+    left: 50%;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 23px);
+    justify-content:space-between;
+    align-items: center;
 }

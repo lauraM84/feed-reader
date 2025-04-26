@@ -4,10 +4,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RssService } from '../../services/rss.service';
 import { feed } from '../../models/feed';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-drower-card',
-  imports: [MatCardModule, MatIconModule, CommonModule],
+  imports: [MatCardModule, MatIconModule, CommonModule, MatButtonModule],
   templateUrl: './drower-card.component.html',
   styleUrl: './drower-card.component.scss'
 })
@@ -29,6 +30,10 @@ export class DrowerCardComponent {
   }
 
   showPreferred() {
-    
+    throw new Error('Method not implemented.');
+  }
+
+  delete() {
+    throw new Error('Method not implemented.');
   }
 }
