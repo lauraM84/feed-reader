@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RssService } from '../../services/rss.service';
-import { Rss } from '../../models/rss';
 
 @Component({
   selector: 'app-add-form',
@@ -48,16 +47,16 @@ export class AddFormComponent {
     if (this.selectedFeed) {
       if (value === 'reddit') {
         const reddit = new FormGroup({
-          subRedditName: new FormControl(""),
-          subRedditUrl: new FormControl(""),
+          name: new FormControl(""),
+          url: new FormControl(""),
         })
 
         this.redditForm.push(reddit);
 
       } else if (value === 'rss') {
         const rss = new FormGroup({
-          journalName: new FormControl(""),
-          journalUrl: new FormControl(""),
+          name: new FormControl(""),
+          url: new FormControl(""),
         })
 
         this.rssForm.push(rss);

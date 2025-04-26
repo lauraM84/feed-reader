@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RssService } from '../../services/rss.service';
-import { Rss } from '../../models/rss';
-import { Reddit } from '../../models/reddit';
+import { feed } from '../../models/feed';
 
 @Component({
   selector: 'app-drower-card',
@@ -15,14 +14,17 @@ import { Reddit } from '../../models/reddit';
 export class DrowerCardComponent {
 
   service = inject(RssService);
+  changeVisibility = output<feed>();
 
   isVisible = true;
 
-  filterRss(rss: Rss) {
-    rss.isHidden = !rss.isHidden
+  filterRss(rss: feed) {
+    rss.isHidden = !rss.isHidden;
+    this.changeVisibility.emit(rss);
   }
 
-  filterRedd(redd: Reddit) {
-    redd.isHidden = !redd.isHidden
+  filterRedd(redd: feed) {
+    redd.isHidden = !redd.isHidden;
+    this.changeVisibility.emit(redd);
     }
 }

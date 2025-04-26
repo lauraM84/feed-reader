@@ -1,16 +1,15 @@
 import { effect, Injectable, signal } from '@angular/core';
-import { Rss } from '../models/rss';
-import { Reddit } from '../models/reddit';
 import { parseStringPromise } from 'xml2js'
 import { Article } from '../models/article';
+import { feed } from '../models/feed';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RssService {
 
-  rssFeed = signal<Rss[]>([]);
-  redditFeed = signal<Reddit[]>([]);
+  rssFeed = signal<feed[]>([]);
+  redditFeed = signal<feed[]>([]);
 
   constructor() {
 
@@ -83,7 +82,7 @@ export class RssService {
     const rssDataArray: Article[] = [];
 
     for (const rssArticle of this.rssFeed()) {
-      const data = await fetch(rssArticle.journalUrl).then(res => res.text()).then(xmlText => {
+      const data = await fetch(rssArticle.url).then(res => res.text()).then(xmlText => {
         const xmlData = parseStringPromise(xmlText, {explicitArray:false});
         return xmlData;
       })
@@ -95,7 +94,7 @@ export class RssService {
           creationDate: date,
           link: rss.link,
           category: data.rss.channel.title,
-          baseUrl: rssArticle.journalUrl,
+          baseUrl: rssArticle.url,
         };
         return rssObj;
       });
@@ -107,23 +106,23 @@ export class RssService {
   async getRedditFeed(){
     const redditDataArray = []
     for (const reddit of this.redditFeed()) {
-      const url = reddit.subRedditUrl.replace(/\/$/, "") + ".json";
+      const url = reddit.url.replace(/\/$/, "") + ".json";
       const data = await fetch(url).then(res => res.json());
-      const fromAnyarrayToArticleArray = data.data.children
-      const finaldata = fromAnyarrayToArticleArray.map((post:any) =>{
+      const fromAnyarrayToArticleArray = data.data.children;
+      const finaldata: Article[] = fromAnyarrayToArticleArray.map((post:any) =>{
         const redditObj:Article = {
                 title: post.data.title,
                 desc: post.data.selftext,
                 creationDate: post.data.created,
                 link: post.data.url,
                 category: post.data.subreddit,
-                baseUrl: reddit.subRedditUrl,
+                baseUrl: reddit.url,
               }
               return redditObj;
       });
-      redditDataArray.push(finaldata);
+      redditDataArray.push(...finaldata);
     }
-    return redditDataArray.flat();
+    return redditDataArray;
   }
 
   orderArrayByDate(data: Article[]) {
