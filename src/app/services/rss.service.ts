@@ -18,8 +18,6 @@ export class RssService {
     this.storageAlignment()
 
     effect(() => {
-      this.removeRssDuplicateUrls();
-      this.removeRedditDuplicateUrls();
       this.saveRssFeed()
       this.saveRedditFeed()
     })
@@ -39,7 +37,7 @@ export class RssService {
     }
   }
 
-  removeRedditDuplicateUrls() {
+  removeRssDuplicateUrls() {
   const seen = new Set<string>();
   const uniqueFeeds: feed[] = [];
 
@@ -54,7 +52,7 @@ export class RssService {
   this.rssFeed.set(uniqueFeeds);
   }
 
-  removeRssDuplicateUrls() {
+  removeRedditDuplicateUrls() {
     const seen = new Set<string>();
     const uniqueFeeds: feed[] = [];
   

@@ -88,6 +88,9 @@ export class AddFormComponent {
 
     this.service.redditFeed.update((old) => old.concat(rawValue.redditForm));
 
+    this.service.removeRssDuplicateUrls();
+    this.service.removeRedditDuplicateUrls();
+
     this.service.getData();
 
     this.dialogSubmit.emit();
