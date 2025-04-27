@@ -1,16 +1,10 @@
 .container {
-    width: 100%;
-    height: calc(100vh - 64px);
-  }
-  
-  .sidenav-content {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .sidenav {
-    padding: 20px;
-    background-color: #0f1415;
-  }
+  width: 100%;
+  height: calc(100vh - 64px);
+}
+
+
+.sidenav {
+  padding: 20px;
+  background-color: #0f1415;
+}

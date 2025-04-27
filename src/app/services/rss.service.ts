@@ -38,24 +38,24 @@ export class RssService {
   }
 
   removeRssDuplicateUrls() {
-  const seen = new Set<string>();
-  const uniqueFeeds: feed[] = [];
+    const seen = new Set<string>();
+    const uniqueFeeds: feed[] = [];
 
-  for (const feed of this.rssFeed()) {
-    if (!seen.has(feed.url)) {
-      seen.add(feed.url);
-      uniqueFeeds.push(feed);
+    for (const feed of this.rssFeed()) {
+      if (!seen.has(feed.url)) {
+        seen.add(feed.url);
+        uniqueFeeds.push(feed);
+      }
+      // else: duplicate found, skip
     }
-    // else: duplicate found, skip
-  }
 
-  this.rssFeed.set(uniqueFeeds);
+    this.rssFeed.set(uniqueFeeds);
   }
 
   removeRedditDuplicateUrls() {
     const seen = new Set<string>();
     const uniqueFeeds: feed[] = [];
-  
+
     for (const feed of this.redditFeed()) {
       if (!seen.has(feed.url)) {
         seen.add(feed.url);
@@ -63,7 +63,7 @@ export class RssService {
       }
       // else: duplicate found, skip
     }
-  
+
     this.redditFeed.set(uniqueFeeds);
   }
 
@@ -160,7 +160,7 @@ export class RssService {
     return redditDataArray;
   }
 
-  orderArrayByDate(data:Article[]) {
+  orderArrayByDate(data: Article[]) {
     const sortedData = data.sort((a, b) => b.creationDate - a.creationDate);
     return sortedData;
   }
@@ -169,7 +169,7 @@ export class RssService {
     const favouriteArticlesString = localStorage.getItem("favourites");
     if (favouriteArticlesString) {
       return JSON.parse(favouriteArticlesString) as Article[];
-    } 
+    }
     return [];
   }
 

@@ -42,7 +42,7 @@ export class HomeComponent {
     }
   }
 
-  filterFavourites(show:boolean) {
+  filterFavourites(show: boolean) {
     if (show) {
       this.displayArray.set(this.service.getFavourites());
     } else {
