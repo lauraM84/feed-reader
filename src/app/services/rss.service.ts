@@ -165,6 +165,17 @@ export class RssService {
     return sortedData;
   }
 
+  isFavourite(article: Article) {
+    const favouriteArticles = this.getFavourites();
+    return favouriteArticles.some((favourite) => favourite.link === article.link);
+  }
+
+  removeFavourite(article: Article) {
+    const favouriteArticles = this.getFavourites();
+    const updatedFavourites = favouriteArticles.filter((favourite) => favourite.link !== article.link);
+    localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
+  }
+
   addFavourite(article: Article) {
     const favouriteArticles = this.getFavourites();
     const isArticleInFavourites = favouriteArticles.some((favourite) => favourite.link === article.link);

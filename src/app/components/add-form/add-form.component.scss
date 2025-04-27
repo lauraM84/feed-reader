@@ -1,16 +1,17 @@
-.field{
+.field {
     z-index: 1;
     position: relative;
 }
 
-.container{
+.container {
     display: flex;
     justify-content: center;
     padding: 12px;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
-.button-container{
+.button-container {
     width: auto;
     display: inline;
     display: flex;
@@ -19,18 +20,25 @@
     box-sizing: border-box;
 }
 
-.form-container{
+.form-container {
     display: flex;
     justify-content: space-around;
     gap: 2%;
+    flex-wrap: wrap;
 }
 
-.column1{
+.column1 {
     display: flex;
     flex-direction: column;
 }
 
-.form-group{
+.form-group {
     display: flex;
     gap: 1%;
+}
+
+@media (max-width: 600px) {
+    .form-group {
+        flex-wrap: wrap;
+    }
 }

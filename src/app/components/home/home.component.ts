@@ -22,11 +22,11 @@ export class HomeComponent {
   areInFavourites = false;
 
   constructor() {
-    
+
     effect(() => {
       this.initializeDisplayArray();
     });
-    
+
   }
 
   async initializeDisplayArray() {
@@ -38,15 +38,23 @@ export class HomeComponent {
     if (this.displayArray().some(article => article.baseUrl === feed.url)) {
       this.displayArray.set(this.displayArray().filter(article => article.baseUrl !== feed.url));
     } else {
-      const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
-      this.displayArray.update(oldArray => this.service.orderArrayByDate(oldArray.concat(arrayToAdd)));
+      if (this.areInFavourites) {
+        const arrayToAdd = this.service.getFavourites().filter(article => article.baseUrl === feed.url);
+        this.displayArray.update(oldArray => this.service.orderArrayByDate(oldArray.concat(arrayToAdd)));
+      }
+      else {
+        const arrayToAdd = this.service.joinedArray().filter(article => article.baseUrl === feed.url);
+        this.displayArray.update(oldArray => this.service.orderArrayByDate(oldArray.concat(arrayToAdd)));
+      }
     }
   }
 
   filterFavourites(show: boolean) {
     if (show) {
+      this.areInFavourites = true;
       this.displayArray.set(this.service.getFavourites());
     } else {
+      this.areInFavourites = false;
       this.displayArray.set(this.service.orderArrayByDate(this.service.joinedArray()))
     }
   }

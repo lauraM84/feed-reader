@@ -21,9 +21,13 @@
             Share
         </button>
 
-        <button mat-stroked-button color="warn" (click)="saveArticle(article)">
+        <button *ngIf="!isFavourite()" mat-stroked-button color="warn" (click)="addFavourite()">
             <mat-icon>bookmark</mat-icon>
             Save
+        </button>
+        <button *ngIf="isFavourite()" mat-stroked-button color="warn" (click)="removeFavourite()">
+            <mat-icon>bookmark_remove</mat-icon>
+            Remove
         </button>
     </mat-card-actions>
 </mat-card>
