@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RssService } from '../../services/rss.service';
+import { feed } from '../../models/feed';
 
 @Component({
   selector: 'app-add-form',

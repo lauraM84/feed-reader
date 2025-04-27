@@ -18,6 +18,8 @@ export class RssService {
     this.storageAlignment()
 
     effect(() => {
+      this.removeRssDuplicateUrls();
+      this.removeRedditDuplicateUrls();
       this.saveRssFeed()
       this.saveRedditFeed()
     })
@@ -35,6 +37,36 @@ export class RssService {
     if (redditFeedString) {
       this.redditFeed.set(JSON.parse(redditFeedString));
     }
+  }
+
+  removeRedditDuplicateUrls() {
+  const seen = new Set<string>();
+  const uniqueFeeds: feed[] = [];
+
+  for (const feed of this.rssFeed()) {
+    if (!seen.has(feed.url)) {
+      seen.add(feed.url);
+      uniqueFeeds.push(feed);
+    }
+    // else: duplicate found, skip
+  }
+
+  this.rssFeed.set(uniqueFeeds);
+  }
+
+  removeRssDuplicateUrls() {
+    const seen = new Set<string>();
+    const uniqueFeeds: feed[] = [];
+  
+    for (const feed of this.redditFeed()) {
+      if (!seen.has(feed.url)) {
+        seen.add(feed.url);
+        uniqueFeeds.push(feed);
+      }
+      // else: duplicate found, skip
+    }
+  
+    this.redditFeed.set(uniqueFeeds);
   }
 
   saveRssFeed() {
