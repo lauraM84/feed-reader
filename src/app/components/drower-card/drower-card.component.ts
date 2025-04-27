@@ -20,7 +20,7 @@ export class DrowerCardComponent {
   favourites = output<boolean>();
 
   isVisible = true;
-  haveToShow = true; 
+  haveToShow = true;
 
   filterRss(rss: feed) {
     rss.isHidden = !rss.isHidden;
@@ -37,9 +37,8 @@ export class DrowerCardComponent {
     this.haveToShow = !this.haveToShow;
   }
 
-  delete(feed:feed) {
+  delete(feed: feed) {
     this.service.rssFeed.update(old => old.filter(rss => rss.url !== feed.url));
     this.service.redditFeed.update(old => old.filter(reddit => reddit.url !== feed.url));
-    this.deleteFeed.emit();
   }
 }

@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { parseStringPromise } from 'xml2js'
 import { Article } from '../models/article';
 import { feed } from '../models/feed';
@@ -12,6 +12,7 @@ export class RssService {
   rssFeed = signal<feed[]>([]);
   redditFeed = signal<feed[]>([]);
   joinedArray = signal<Article[]>([]);
+  orderedArray = this.joinedArray;
 
   constructor() {
 
@@ -22,7 +23,12 @@ export class RssService {
       this.saveRedditFeed()
     })
 
-    this.getData()
+    effect(() => {
+      this.rssFeed();
+      this.redditFeed();
+      this.getData();
+    })
+
   }
 
   storageAlignment() {
@@ -102,11 +108,9 @@ export class RssService {
     console.log("rss Array", rssDataArray);
     console.log("reddit Array", redditDataArray);
 
-    this.joinedArray.set([...rssDataArray, ...redditDataArray]);
+    this.joinedArray.set(this.orderArrayByDate([...rssDataArray, ...redditDataArray]));
 
-    console.log(this.joinedArray());
-
-    return this.orderArrayByDate(this.joinedArray());
+    return this.joinedArray();
 
   }
 

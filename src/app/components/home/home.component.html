@@ -1,8 +1,7 @@
 <mat-drawer-container class="container" autosize>
   <mat-drawer [opened]="isSidebarOpen()" #drawer class="sidenav" mode="push" position="start">
 
-    <app-drower-card (changeVisibility)="filterCards($event)" (deleteFeed)="initializeDisplayArray()"
-      (favourites)="filterFavourites($event)"></app-drower-card>
+    <app-drower-card (changeVisibility)="filterCards($event)" (favourites)="filterFavourites($event)"></app-drower-card>
 
   </mat-drawer>
 
