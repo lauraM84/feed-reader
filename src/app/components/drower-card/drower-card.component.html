@@ -5,7 +5,7 @@
             <mat-card appearance="outlined" class="card">
                 <mat-card-content class="feed">
                     <span> 
-                        <mat-icon (click)="delete()">delete</mat-icon> 
+                        <mat-icon (click)="delete(rss)">delete</mat-icon> 
                         {{rss.name}}
                     </span>
                   
@@ -22,7 +22,7 @@
             <mat-card appearance="outlined">
                 <mat-card-content class="feed">
                     <span> 
-                        <mat-icon (click)="delete()">delete</mat-icon> 
+                        <mat-icon (click)="delete(subReddit)">delete</mat-icon> 
                         {{subReddit.name}}
                     </span>
                     <mat-icon *ngIf="!subReddit.isHidden" (click)="filterRedd(subReddit)">visibility</mat-icon>

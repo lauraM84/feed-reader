@@ -16,6 +16,7 @@ export class DrowerCardComponent {
 
   service = inject(RssService);
   changeVisibility = output<feed>();
+  deleteFeed = output();
 
   isVisible = true;
 
@@ -33,7 +34,9 @@ export class DrowerCardComponent {
     throw new Error('Method not implemented.');
   }
 
-  delete() {
-    throw new Error('Method not implemented.');
+  delete(feed:feed) {
+    this.service.rssFeed.update(old => old.filter(rss => rss.url !== feed.url));
+    this.service.redditFeed.update(old => old.filter(reddit => reddit.url !== feed.url));
+    this.deleteFeed.emit();
   }
 }
