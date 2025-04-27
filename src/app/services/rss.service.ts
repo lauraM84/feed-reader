@@ -165,6 +165,15 @@ export class RssService {
     return sortedData;
   }
 
+  addFavourite(article: Article) {
+    const favouriteArticles = this.getFavourites();
+    const isArticleInFavourites = favouriteArticles.some((favourite) => favourite.link === article.link);
+    if (!isArticleInFavourites) {
+      favouriteArticles.push(article);
+      localStorage.setItem("favourites", JSON.stringify(favouriteArticles));
+    }
+  }
+
   getFavourites() {
     const favouriteArticlesString = localStorage.getItem("favourites");
     if (favouriteArticlesString) {

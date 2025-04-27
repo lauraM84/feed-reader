@@ -1,9 +1,10 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, inject, Input, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Article } from '../../models/article';
 import { TruncatePipe } from './truncate.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { RssService } from '../../services/rss.service';
 
 @Component({
   selector: 'app-card',
@@ -12,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './card.component.scss'
 })
 export class CardComponent {
+  service = inject(RssService);
   @Input() article!: Article;
 
   shareArticle(article: Article) {
@@ -32,7 +34,7 @@ export class CardComponent {
   }
 
   saveArticle(article: Article) {
-
+    this.service.addFavourite(article);
   }
 }
 
