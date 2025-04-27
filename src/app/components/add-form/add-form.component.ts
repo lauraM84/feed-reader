@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
@@ -47,16 +47,16 @@ export class AddFormComponent {
     if (this.selectedFeed) {
       if (value === 'reddit') {
         const reddit = new FormGroup({
-          name: new FormControl(""),
-          url: new FormControl(""),
+          name: new FormControl("", [Validators.required, Validators.maxLength(20)]),
+          url: new FormControl("", [Validators.required, Validators.pattern(/^https?:\/\/([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/)]),
         })
 
         this.redditForm.push(reddit);
 
       } else if (value === 'rss') {
         const rss = new FormGroup({
-          name: new FormControl(""),
-          url: new FormControl(""),
+          name: new FormControl("", [Validators.required, Validators.maxLength(20)]),
+          url: new FormControl("", [Validators.required, Validators.pattern(/^https?:\/\/([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/)]),
         })
 
         this.rssForm.push(rss);
