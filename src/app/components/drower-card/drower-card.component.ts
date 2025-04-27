@@ -17,8 +17,10 @@ export class DrowerCardComponent {
   service = inject(RssService);
   changeVisibility = output<feed>();
   deleteFeed = output();
+  favourites = output<boolean>();
 
   isVisible = true;
+  haveToShow = true; 
 
   filterRss(rss: feed) {
     rss.isHidden = !rss.isHidden;
@@ -31,7 +33,8 @@ export class DrowerCardComponent {
   }
 
   showPreferred() {
-    throw new Error('Method not implemented.');
+    this.favourites.emit(this.haveToShow);
+    this.haveToShow = !this.haveToShow;
   }
 
   delete(feed:feed) {

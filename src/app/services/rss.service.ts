@@ -166,8 +166,16 @@ export class RssService {
     const sortedData = data.sort((a, b) => b.creationDate - a.creationDate);
     return sortedData;
   }
-}
 
+  getFavourites() {
+    const favouriteArticlesString = localStorage.getItem("favourites");
+    if (favouriteArticlesString) {
+      return JSON.parse(favouriteArticlesString) as Article[];
+    } 
+    return [];
+  }
+
+}
 
 function decodeDescription(description: string): string {
   return removeImageTags(decode(description));

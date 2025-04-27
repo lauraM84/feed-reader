@@ -42,4 +42,12 @@ export class HomeComponent {
     }
   }
 
+  filterFavourites(show:boolean) {
+    if (show) {
+      this.displayArray.set(this.service.getFavourites());
+    } else {
+      this.displayArray.set(this.service.orderArrayByDate(this.service.joinedArray()))
+    }
+  }
+
 }
