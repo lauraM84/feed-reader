@@ -1,34 +1,40 @@
 <div class="main-container">
-    <h3>Newspaper</h3>
     <div class="container">
-        <div *ngFor="let rss of service.rssFeed()">
-            <mat-card appearance="outlined" class="card">
-                <mat-card-content class="feed">
-                    <span> 
-                        <mat-icon (click)="delete(rss)">delete</mat-icon> 
-                        {{rss.name}}
-                    </span>
-                  
-                    <mat-icon *ngIf="!rss.isHidden" (click)="filterRss(rss)">visibility</mat-icon>
-                    <mat-icon *ngIf="rss.isHidden" (click)="filterRss(rss)">visibility_off</mat-icon>
-                </mat-card-content>
-            </mat-card>
+        <h3>Newspaper</h3>
+        <div class="sub-container">
+            <div *ngFor="let rss of service.rssFeed()">
+                <mat-card appearance="outlined" class="card">
+                    <mat-card-content class="feed">
+                        <span>
+                            <mat-icon (click)="delete(rss)">delete</mat-icon>
+                            {{rss.name}}
+                        </span>
+
+                        <mat-icon *ngIf="!rss.isHidden" (click)="filterRss(rss)">visibility</mat-icon>
+                        <mat-icon *ngIf="rss.isHidden" (click)="filterRss(rss)">visibility_off</mat-icon>
+                    </mat-card-content>
+                </mat-card>
+            </div>
         </div>
     </div>
 
-    <h3>Reddit</h3>
+
     <div class="container">
-        <div *ngFor="let subReddit of service.redditFeed()">
-            <mat-card appearance="outlined">
-                <mat-card-content class="feed">
-                    <span> 
-                        <mat-icon (click)="delete(subReddit)">delete</mat-icon> 
-                        {{subReddit.name}}
-                    </span>
-                    <mat-icon *ngIf="!subReddit.isHidden" (click)="filterRedd(subReddit)">visibility</mat-icon>
-                    <mat-icon *ngIf="subReddit.isHidden" (click)="filterRedd(subReddit)">visibility_off</mat-icon>
-                </mat-card-content>
-            </mat-card>
+        <h3>Reddit</h3>
+        <div class="sub-container">
+
+            <div *ngFor="let subReddit of service.redditFeed()">
+                <mat-card appearance="outlined">
+                    <mat-card-content class="feed">
+                        <span>
+                            <mat-icon (click)="delete(subReddit)">delete</mat-icon>
+                            {{subReddit.name}}
+                        </span>
+                        <mat-icon *ngIf="!subReddit.isHidden" (click)="filterRedd(subReddit)">visibility</mat-icon>
+                        <mat-icon *ngIf="subReddit.isHidden" (click)="filterRedd(subReddit)">visibility_off</mat-icon>
+                    </mat-card-content>
+                </mat-card>
+            </div>
         </div>
     </div>
 
