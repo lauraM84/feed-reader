@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { Article } from '../../models/article';
 import { CommonModule } from '@angular/common';
@@ -10,5 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './list-card.component.scss'
 })
 export class ListCardComponent {
-  articles = input<Article[]>([]);
+  
+  @Input() articles!: Article[];
+
 }

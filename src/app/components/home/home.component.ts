@@ -18,14 +18,15 @@ export class HomeComponent {
   service = inject(RssService);
   showFiller = false;
   isSidebarOpen = input(false);
-  displayArray = signal<Article[]>([]); //l'array in cui mettere i dati dal service per poter creare le card
+  displayArray = signal<Article[]>([]);
+  areInFavourites = false;
 
   constructor() {
-    this.initializeDisplayArray();
-
+    
     effect(() => {
-      console.log('Display array updated:', this.displayArray());
+      this.initializeDisplayArray();
     });
+    
   }
 
   async initializeDisplayArray() {
